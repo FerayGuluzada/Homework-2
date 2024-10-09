@@ -31,6 +31,7 @@ defmodule TaksoWeb.UserController do
     render(conn, :show, user: user)
   end
 
+
   def edit(conn, %{"id" => id}) do
     user = Accounts.get_user!(id)
     changeset = Accounts.change_user(user)
@@ -84,6 +85,11 @@ defmodule TaksoWeb.UserController do
 
     Repo.update(changeset)
     redirect(conn, to: ~p"/users")
+  end
+
+  def show(conn, %{"id" => id}) do
+    user = Repo.get!(User, id)
+    render(conn, "show.html", user: user)
   end
 
 end
