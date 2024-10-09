@@ -59,4 +59,16 @@ defmodule TaksoWeb.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: ~p"/users")
   end
+
+  def new(conn, _params) do
+    changeset = User.changeset(%User{}, %{})
+    render(conn, "new.html", changeset: changeset)
+  end
+
+  def create(conn, %{"user" => user_params}) do
+    changeset = User.changeset(%User{}, user_params)
+
+    Repo.insert(changeset)
+    redirect(conn, to: ~p"/users")
+  end
 end
