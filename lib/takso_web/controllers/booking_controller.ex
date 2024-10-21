@@ -3,6 +3,7 @@ defmodule TaksoWeb.BookingController do
   import Ecto.Query, only: [from: 2]
   alias Takso.Sales.Taxi
   alias Takso.Repo
+  alias Takso.Sales
 
 
   # Renders the form for a new booking
@@ -33,6 +34,8 @@ defmodule TaksoWeb.BookingController do
       |> redirect(to: "/bookings/confirmation")
     end
   end
+
+
 
   def show(conn, %{"id" => id}) do
     booking = Sales.get_booking!(id)

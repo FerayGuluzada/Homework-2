@@ -4,8 +4,8 @@ defmodule Takso.Repo.Migrations.CreateBookings do
   def change do
     create table(:bookings) do
       add :customer_name, :string
-      add :pickup_location, :string
-      add :dropoff_location, :string
+      add :pickup_address, :string  
+      add :dropoff_address, :string
       add :status, :string
 
       timestamps()
