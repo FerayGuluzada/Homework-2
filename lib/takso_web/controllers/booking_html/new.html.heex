@@ -4,7 +4,12 @@
 
 <form method="post" action="/bookings">
   <input type="hidden" name="_csrf_token" value={get_csrf_token()}>
-  <input id="pickup_address">
-  <input id="dropoff_address">
-  <button id="submit_button">Submit</button>
+  
+  <label for="pickup_address">Pickup Address:</label>
+  <input id="pickup_address" name="pickup_address" value="" placeholder="Enter pickup address">
+
+  <label for="dropoff_address">Dropoff Address:</label>
+  <input id="dropoff_address" name="dropoff_address" value="" placeholder="Enter dropoff address">
+
+  <button id="submit_button" type="submit">Submit</button>
 </form>
