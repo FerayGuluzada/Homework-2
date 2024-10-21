@@ -2,6 +2,9 @@ defmodule Takso.BookingControllerTest do
   use TaksoWeb.ConnCase
 
   alias Takso.{Repo,Sales.Taxi}
+  alias Takso.Repo
+  alias Takso.Taxi
+  alias Takso.Sales.Taxi
 
   test "Booking rejection", %{conn: conn} do
     Repo.insert!(%Taxi{status: "busy"})

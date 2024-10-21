@@ -8,15 +8,11 @@ defmodule Takso.Sales.Taxi do
     field :status, :string
     timestamps()
   end
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [:username, :location, :status])
-  end
 
   @doc false
   def changeset(taxi, attrs) do
     taxi
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:username, :location, :status])
+    |> validate_required([:username, :location, :status])
   end
 end
