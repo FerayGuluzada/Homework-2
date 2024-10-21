@@ -30,7 +30,7 @@ defmodule TaksoWeb.BookingController do
     else
       # Handle the acceptance case
       conn
-      |> put_flash(:info, "Your taxi will arrive in X minutes!")  # Replace X with actual time
+      |> put_flash(:info, "Your taxi will arrive in 15 minutes!")  # Replace X with actual time
       |> redirect(to: "/bookings/confirmation")
     end
   end
