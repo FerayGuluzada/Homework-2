@@ -2,24 +2,29 @@ defmodule WhiteBreadContext do
   use WhiteBread.Context
   use Hound.Helpers
 
+  alias Takso.{Repo, Sales.Taxi}  # Add this line
+
   feature_starting_state fn  ->
     Application.ensure_all_started(:hound)
     %{}
   end
 
-  scenario_starting_state fn _state ->
+  scenario_starting_state fn state ->
     Hound.start_session
+    Ecto.Adapters.SQL.Sandbox.checkout(Takso.Repo)
+    Ecto.Adapters.SQL.Sandbox.mode(Takso.Repo, {:shared, self()})  # Update this line
     %{}
   end
 
   scenario_finalize fn _status, _state ->
-    # Uncomment this line to automatically close the browser after each scenario
-    # Hound.end_session
-    nil
+    Ecto.Adapters.SQL.Sandbox.checkin(Takso.Repo)
+    Hound.end_session
   end
 
-  given_ ~r/^the following taxis are on duty$/,
-  fn state ->
+  given_ ~r/^the following taxis are on duty$/, fn state, %{table_data: table} ->
+    table
+    |> Enum.map(fn taxi -> Taxi.changeset(%Taxi{}, taxi) end)
+    |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
     {:ok, state}
   end
 
@@ -57,4 +62,10 @@ defmodule WhiteBreadContext do
     assert visible_in_page? ~r/Your taxi will arrive in \d+ minutes/
     {:ok, state}
   end
+
+  then_ ~r/^I should receive a rejection message$/, fn state ->
+    assert visible_in_page? ~r/Booking request rejected/
+    {:ok, state}
+  end
+
 end
